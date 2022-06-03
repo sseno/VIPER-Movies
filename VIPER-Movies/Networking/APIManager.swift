@@ -22,11 +22,14 @@ enum ErrorAPI: Error {
 
 class APIManager {
     
-    func request<T: Decodable>(httpMethod method: HTTPMethod, baseUrl baseURL: String = APIEnv.baseURL, pathUrl pathURL: String, parameters: [String: Any]? = nil, completion: @escaping (Result<T, ErrorAPI>) -> Void) {
+    func request<T: Decodable>(httpMethod method: HTTPMethod, baseUrl baseURL: String = APIEnv.baseURL, pathUrl pathURL: String, lastPathUrl: String? = nil, parameters: [String: Any]? = nil, completion: @escaping (Result<T, ErrorAPI>) -> Void) {
         
-        let endpoint = baseURL + pathURL + "?api_key=\(APIEnv.apiKey)"
+        var fullURL = baseURL + pathURL + "?api_key=\(APIEnv.apiKey)"
+        if let lastPathUrl = lastPathUrl {
+            fullURL.append("&\(lastPathUrl)")
+        }
         
-        guard let url = URL(string: endpoint) else {
+        guard let url = URL(string: fullURL) else {
             completion(.failure(.invalidUrl))
             return
         }
@@ -47,6 +50,15 @@ class APIManager {
                 return
             }
             
+            print("\nHeaders >>> \(String(describing: request.allHTTPHeaderFields))")
+            print("URL Request >>> \(String(describing: url))")
+            if let httpResponse = response as? HTTPURLResponse {
+                print("statusCode >>> \(String(describing: httpResponse.statusCode))\n\n")
+            }
+            
+            print("Param >>> \(String(describing: parameters))")
+            print("Response >>> \(data.prettyPrintedJSONString ?? "")\n\n")
+            
             do {
                 let result = try JSONDecoder().decode(T.self, from: data)
                 
@@ -65,4 +77,22 @@ class APIManager {
         
         task.resume()
     }
+}
+
+extension Data {
+    /// https://gist.github.com/cprovatas/5c9f51813bc784ef1d7fcbfb89de74fe
+    var prettyPrintedJSONString: NSString? { /// NSString gives us a nice sanitized debugDescription
+        if #available(iOS 11.0, *) {
+            guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
+                  let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted, .sortedKeys]),
+                  let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
+            return prettyPrintedString
+        } else {
+            guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
+                  let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
+                  let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
+            return prettyPrintedString
+        }
+    }
+    
 }

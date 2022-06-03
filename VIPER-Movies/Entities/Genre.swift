@@ -7,7 +7,10 @@
 
 import Foundation
 
-typealias Genres = [Genre]
+struct GenreList: Decodable {
+    
+    let genres: [Genre]?
+}
 
 struct Genre: Decodable {
     

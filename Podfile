@@ -8,5 +8,6 @@ target 'VIPER-Movies' do
   # Pods for VIPER-Movies
 
   pod 'Texture'
+  pod 'SVProgressHUD'
 
 end

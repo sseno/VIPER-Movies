@@ -17,7 +17,8 @@ class GenreListViewController: ASDKViewController<ASTableNode> {
         title = "Genres"
         node.backgroundColor = .white
         node.dataSource = self
-        node.allowsSelection = false
+        node.delegate = self
+        node.allowsMultipleSelection = false
     }
     
     required init?(coder: NSCoder) {
@@ -27,6 +28,7 @@ class GenreListViewController: ASDKViewController<ASTableNode> {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        presenter?.viewDidLoad()
     }
     
     private func setupNavigationBar() {
@@ -36,19 +38,50 @@ class GenreListViewController: ASDKViewController<ASTableNode> {
 
 }
 
+// MARK: - PresenterToViewGenresProtocol
+extension GenreListViewController: PresenterToViewGenresProtocol {
+    
+    func onFetchGenresSuccess() {
+        node.reloadData()
+    }
+    
+    func onFetchGenresFailure(error: String) {
+        print("Error from presenter with error: \(error)")
+    }
+    
+    func showLoading() {
+        self.showLoadingHUD()
+    }
+    
+    func hideLoading() {
+        self.hideLoadingHUD()
+    }
+}
+
 // MARK: - ASTableDataSource
 extension GenreListViewController: ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return presenter?.genreList?.genres?.count ?? 0
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeBlockForRowAt indexPath: IndexPath) -> ASCellNodeBlock {
+        guard let genreList = self.presenter?.genreList?.genres, genreList.count > indexPath.row else {
+            return { ASCellNode() }
+        }
         return {
             let cellNode = ASTextCellNode()
             cellNode.textAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)]
-            cellNode.text = "\(indexPath.row)"
+            cellNode.text = self.presenter?.setTextNode(by: indexPath)
             return cellNode
         }
+    }
+}
+
+// MARK: - ASTableDelegate
+extension GenreListViewController: ASTableDelegate {
+    
+    func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
+        presenter?.didSelectRowAt(index: indexPath.row)
     }
 }

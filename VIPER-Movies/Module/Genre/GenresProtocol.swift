@@ -1,5 +1,5 @@
 //
-//  GenreProtocol.swift
+//  GenresProtocol.swift
 //  VIPER-Movies
 //
 //  Created by Seno on 02/06/22.
@@ -13,18 +13,20 @@ protocol PresenterToViewGenresProtocol: AnyObject {
     func onFetchGenresSuccess()
     func onFetchGenresFailure(error: String)
     
-    func showLoadingHUD()
-    func hideLoadingHUD()
+    func showLoading()
+    func hideLoading()
 }
 
 // MARK: - View Input (View -> Presenter)
 protocol ViewToPresenterGenresProtocol: AnyObject {
     
     var view: PresenterToViewGenresProtocol? { get set }
+    var interactor: PresenterToInteractorGenresProtocol? { get set }
+    var router: PresenterToRouterGenresProtocol? { get set }
     
-    var genres: Genres? { get set }
+    var genreList: GenreList? { get set }
     
-//    func viewDidLoad()
+    func viewDidLoad()
     
     func numberOfRowsInSection() -> Int
     func setTextNode(by indexPath: IndexPath) -> String?
@@ -35,19 +37,19 @@ protocol ViewToPresenterGenresProtocol: AnyObject {
 // MARK: - Interactor Input (Presenter -> Interactor)
 protocol PresenterToInteractorGenresProtocol: AnyObject {
     
-    var presenter: InteractorToProtocolGenresProtocol? { get set }
+    var presenter: InteractorToPresenterGenresProtocol? { get set }
     
     func loadGenres()
-//    func retrieveGenres(at index: Int)
+    func retrieveGenre(at index: Int)
 }
 
 // MARK: - Interactor Output (Interactor -> Presenter)
-protocol InteractorToProtocolGenresProtocol: AnyObject {
+protocol InteractorToPresenterGenresProtocol: AnyObject {
     
-    func fetchGenresSuccess(genres: [Genres])
+    func fetchGenresSuccess(genreList: GenreList)
     func fetchGenresFailure(errorCode: Int)
     
-    func getGenreSuccess(gender: Genre)
+    func getGenreSuccess(genre: Genre)
     func getGenreFailure()
 }
 
@@ -55,5 +57,5 @@ protocol InteractorToProtocolGenresProtocol: AnyObject {
 protocol PresenterToRouterGenresProtocol: AnyObject {
     
     static func createModule() -> UINavigationController
-    func pushToMovieDetail(on view: PresenterToViewGenresProtocol, with genre: Genre)
+    func pushToMovieListByGenre(on view: PresenterToViewGenresProtocol, with genre: Genre)
 }
