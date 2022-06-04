@@ -20,4 +20,8 @@ class MovieService: APIManager {
     func requestMovieDetailReviews(by movieId: Int, completion: @escaping (Result<UserReview, ErrorAPI>) -> Void) {
         self.request(httpMethod: .get, pathUrl: "movie/\(movieId)/reviews", completion: completion)
     }
+    
+    func requestMovieVideoTrailer(by movieId: Int, completion: @escaping (Result<VideoTrailer, ErrorAPI>) -> Void) {
+        self.request(httpMethod: .get, pathUrl: "movie/\(movieId)/videos", completion: completion)
+    }
 }

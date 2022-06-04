@@ -13,6 +13,9 @@ protocol PresenterToViewMovieDetailProtocol: AnyObject {
     func onFetchMovieDetailSuccess()
     func onFetchMovieDetailFailure(error: String)
     
+    func onFetchVideoTrailerSuccess()
+    func onFetchVideoTrailerFailure(error: String)
+    
     func onFetchUserReviewSuccess()
     func onFetchUserReviewFailure(error: String)
     
@@ -28,6 +31,7 @@ protocol ViewToPresenterMovieDetailProtocol: AnyObject {
     var router: PresenterToRouterMovieDetailProtocol? { get set }
     
     var movieDetail: MovieDetail? { get set }
+    var videoTrailer: VideoTrailer? { get set }
     var userReview: UserReview? { get set }
     
     func viewDidLoad()
@@ -43,6 +47,7 @@ protocol PresenterToInteractorMovieDetailProtocol: AnyObject {
     var presenter: InteractorToPresenterMovieDetailProtocol? { get set }
     
     func loadMovieDetail(with movieId: Int?)
+    func loadMovideVideoTrailer(with movideId: Int?)
     func loadMoviewDetailReview(with movieId: Int?)
     func retrieveMovie(at index: Int)
 }
@@ -52,6 +57,9 @@ protocol InteractorToPresenterMovieDetailProtocol: AnyObject {
     
     func fetchMovieDetailSuccess(movieDetail: MovieDetail)
     func fetchMovieDetailFailure(errorCode: Int)
+    
+    func fetchVideoTrailerSuccess(videoTrailer: VideoTrailer)
+    func fetchVideoTrailerFailure(errorCode: Int)
     
     func fetchUserReviewSuccess(userReview: UserReview)
     func fetchUserReviewFailure(errorCode: Int)
