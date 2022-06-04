@@ -46,7 +46,10 @@ extension GenreListViewController: PresenterToViewGenresProtocol {
     }
     
     func onFetchGenresFailure(error: String) {
-        print("Error from presenter with error: \(error)")
+        let alertMessage = UIAlertController(title: "Oops!", message: "Error fetching genres with error: \(error)", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "OK", style: .default)
+        alertMessage.addAction(okButton)
+        self.present(alertMessage, animated: true)
     }
     
     func showLoading() {
@@ -55,6 +58,10 @@ extension GenreListViewController: PresenterToViewGenresProtocol {
     
     func hideLoading() {
         self.hideLoadingHUD()
+    }
+    
+    func deselectRowAt(indexPath: IndexPath) {
+        node.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -83,5 +90,6 @@ extension GenreListViewController: ASTableDelegate {
     
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
         presenter?.didSelectRowAt(index: indexPath.row)
+        presenter?.deselectRowAt(indexPath: indexPath)
     }
 }

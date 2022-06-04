@@ -25,7 +25,10 @@ class MoviesRouter: PresenterToRouterMoviesProtocol {
     }
     
     func pushToMovieDetailById(on view: PresenterToViewMoviesProtocol, with movie: MovieResult) {
-        //
+        let movieDetailViewController = MovieDetailRouter.createModule(with: movie)
+        
+        let viewController = view as! MoviewListViewController
+        viewController.navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
     
 }

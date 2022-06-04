@@ -15,7 +15,9 @@ class MoviesPresenter: ViewToPresenterMoviesProtocol {
     
     var router: PresenterToRouterMoviesProtocol?
     
-    var movies: Movie?
+    var movieResuls: [MovieResult] = []
+    private var page = 1
+    
     private let genre: Genre
     
     init(genre: Genre) {
@@ -24,7 +26,7 @@ class MoviesPresenter: ViewToPresenterMoviesProtocol {
     
     func viewDidLoad() {
         view?.showLoading()
-        interactor?.loadMovies(with: genre.id)
+        interactor?.loadMovies(page: 1, with: genre.id)
     }
     
     func setNavigationBarTitle() -> String {
@@ -32,43 +34,54 @@ class MoviesPresenter: ViewToPresenterMoviesProtocol {
     }
     
     func numberOfRowsInSection() -> Int {
-        guard let results = movies?.results else {
-            return 0
-        }
-        return results.count
+        return movieResuls.count
     }
     
     func setImageUrl(by indexPath: IndexPath) -> String? {
-        guard let results = movies?.results, let path = results[indexPath.row].posterPath else {
+        guard movieResuls.count > 0, let path = movieResuls[indexPath.row].posterPath else {
             return nil
         }
         return "https://image.tmdb.org/t/p/w500/" + path
     }
     
     func setTextTitle(by indexPath: IndexPath) -> String? {
-        guard let results = movies?.results else {
+        guard movieResuls.count > 0 else {
             return nil
         }
-        return results[indexPath.row].title
+        return movieResuls[indexPath.row].title
     }
     
     func setTextOverview(by indexPath: IndexPath) -> String? {
-        guard let results = movies?.results else {
+        guard movieResuls.count > 0 else {
             return nil
         }
-        return results[indexPath.row].title
+        return movieResuls[indexPath.row].overview
     }
     
     func didSelectRowAt(index: Int) {
         interactor?.retrieveMovie(at: index)
+    }
+    
+    func deselectRowAt(indexPath: IndexPath) {
+        view?.deselectRowAt(indexPath: indexPath)
+    }
+    
+    func pullToRefresh() {
+        interactor?.loadMovies(page: 1, with: genre.id)
+    }
+    
+    func didEndScrolling() {
+        view?.showLoading()
+        page += 1
+        interactor?.loadMovies(page: page, with: genre.id)
     }
 }
 
 // MARK: - InteractorToPresenterMoviesProtocol
 extension MoviesPresenter: InteractorToPresenterMoviesProtocol {
     
-    func fetchMoviesSuccess(movies: Movie) {
-        self.movies = movies
+    func fetchMoviesSuccess(movieResults: [MovieResult]) {
+        self.movieResuls = movieResults
         view?.hideLoading()
         view?.onFetchMoviesSuccess()
     }

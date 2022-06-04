@@ -15,6 +15,8 @@ protocol PresenterToViewMoviesProtocol: AnyObject {
     
     func showLoading()
     func hideLoading()
+    
+    func deselectRowAt(indexPath: IndexPath)
 }
 
 // MARK: - View Input (View -> Presenter)
@@ -24,7 +26,7 @@ protocol ViewToPresenterMoviesProtocol: AnyObject {
     var interactor: PresenterToInteractorMoviesProtocol? { get set }
     var router: PresenterToRouterMoviesProtocol? { get set }
     
-    var movies: Movie? { get set }
+    var movieResuls: [MovieResult] { get set }
     
     func viewDidLoad()
     func setNavigationBarTitle() -> String
@@ -35,6 +37,10 @@ protocol ViewToPresenterMoviesProtocol: AnyObject {
     func setTextOverview(by indexPath: IndexPath) -> String?
     
     func didSelectRowAt(index: Int)
+    func deselectRowAt(indexPath: IndexPath)
+    
+    func pullToRefresh()
+    func didEndScrolling()
 }
 
 // MARK: - Interactor Input (Presenter -> Interactor)
@@ -42,14 +48,14 @@ protocol PresenterToInteractorMoviesProtocol: AnyObject {
     
     var presenter: InteractorToPresenterMoviesProtocol? { get set }
     
-    func loadMovies(with genreId: Int?)
+    func loadMovies(page: Int, with genreId: Int?)
     func retrieveMovie(at index: Int)
 }
 
 // MARK: - Interactor Output (Interactor -> Presenter)
 protocol InteractorToPresenterMoviesProtocol: AnyObject {
     
-    func fetchMoviesSuccess(movies: Movie)
+    func fetchMoviesSuccess(movieResults: [MovieResult])
     func fetchMoviesFailure(errorCode: Int)
     
     func getMovieSuccess(movie: MovieResult)

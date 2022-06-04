@@ -14,7 +14,7 @@ class GenresPresenter: ViewToPresenterGenresProtocol {
     var interactor: PresenterToInteractorGenresProtocol?
     var router: PresenterToRouterGenresProtocol?
     
-    var genreList: GenreList? // var genresStrings: [String]?
+    var genreList: GenreList?
     
     // MARK: - Inputs from view
     func viewDidLoad() {
@@ -38,6 +38,10 @@ class GenresPresenter: ViewToPresenterGenresProtocol {
     
     func didSelectRowAt(index: Int) {
         interactor?.retrieveGenre(at: index)
+    }
+    
+    func deselectRowAt(indexPath: IndexPath) {
+        view?.deselectRowAt(indexPath: indexPath)
     }
     
 }

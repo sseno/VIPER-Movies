@@ -10,7 +10,8 @@ import Foundation
 class MovieInteractor: PresenterToInteractorMoviesProtocol {
     
     weak var presenter: InteractorToPresenterMoviesProtocol?
-    var movies: Movie?
+    
+    var movieResults: [MovieResult] = []
     
     private let service: MovieService
     
@@ -18,18 +19,27 @@ class MovieInteractor: PresenterToInteractorMoviesProtocol {
         self.service = service
     }
     
-    func loadMovies(with genreId: Int?) {
+    func loadMovies(page: Int, with genreId: Int?) {
         guard let genreId = genreId else {
             return
         }
 
-        service.requestMovieList(page: 1, by: genreId) { [weak self] result in
+        service.requestMovieList(page: page, by: genreId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    self.movies = response
-                    self.presenter?.fetchMoviesSuccess(movies: response)
+                    if page == 1 {
+                        if let movieResults = response.results {
+                            self.movieResults = movieResults
+                        }
+                        self.presenter?.fetchMoviesSuccess(movieResults: self.movieResults)
+                    } else {
+                        if let movieResults = response.results {
+                            self.movieResults.append(contentsOf: movieResults)
+                        }
+                        self.presenter?.fetchMoviesSuccess(movieResults: self.movieResults)
+                    }
                 }
             case .failure(let error):
                 switch error {
@@ -43,10 +53,10 @@ class MovieInteractor: PresenterToInteractorMoviesProtocol {
     }
     
     func retrieveMovie(at index: Int) {
-        guard let results = movies?.results else {
+        guard movieResults.count > 0 else {
             presenter?.getMovieFailure()
             return
         }
-        presenter?.getMovieSuccess(movie: results[index])
+        presenter?.getMovieSuccess(movie: movieResults[index])
     }
 }

@@ -27,6 +27,7 @@ class MovieCellNode: ASCellNode {
         )
         
         overviewNode = ASTextNode()
+        overviewNode.maximumNumberOfLines = 6
         overviewNode.attributedText = NSAttributedString(
             string: overview ?? "",
             attributes: [

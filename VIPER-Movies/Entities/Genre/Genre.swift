@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct GenreList: Decodable {
+struct GenreList: Codable {
     
     let genres: [Genre]?
 }
 
-struct Genre: Decodable {
+struct Genre: Codable {
     
     let id: Int?
     let name: String?

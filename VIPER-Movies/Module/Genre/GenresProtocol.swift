@@ -15,6 +15,8 @@ protocol PresenterToViewGenresProtocol: AnyObject {
     
     func showLoading()
     func hideLoading()
+    
+    func deselectRowAt(indexPath: IndexPath)
 }
 
 // MARK: - View Input (View -> Presenter)
@@ -32,6 +34,7 @@ protocol ViewToPresenterGenresProtocol: AnyObject {
     func setTextNode(by indexPath: IndexPath) -> String?
     
     func didSelectRowAt(index: Int)
+    func deselectRowAt(indexPath: IndexPath)
 }
 
 // MARK: - Interactor Input (Presenter -> Interactor)
