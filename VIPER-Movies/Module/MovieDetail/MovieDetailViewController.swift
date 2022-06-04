@@ -82,7 +82,7 @@ extension MovieDetailViewController: ASTableDataSource {
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeBlockForRowAt indexPath: IndexPath) -> ASCellNodeBlock {
-        #warning("line 87, 92: need improvement")
+        #warning("line 92, 97: need improvement")
         return {
             switch indexPath.section {
             case 0:
