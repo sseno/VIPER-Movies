@@ -8,6 +8,6 @@ references:
 - https://medium.com/cr8resume/viper-architecture-for-ios-project-with-simple-demo-example-7a07321dbd29
 
 
-In this simple project, display a list of genres at the first page. When tapping one of genre, display a list of movies based on genre. After that, when tapping movie, navigate to the movie detail and show content movie detail including user reviews.
+In this simple project, display a list of genres at the first page. When tapping one of genre, display a list of movies based on genre. After that, when tapping movie, navigate to the movie detail and show content movie detail including video trailer and user reviews.
 
 Thanks!
