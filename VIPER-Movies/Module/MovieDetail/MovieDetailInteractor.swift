@@ -12,6 +12,7 @@ class MovieDetailInteractor: PresenterToInteractorMovieDetailProtocol {
     var presenter: InteractorToPresenterMovieDetailProtocol?
     
     var movieDetail: MovieDetail?
+    var videoTrailer: VideoTrailer?
     var userReview: UserReview?
     
     private let service: MovieService
@@ -37,6 +38,30 @@ class MovieDetailInteractor: PresenterToInteractorMovieDetailProtocol {
                 switch error {
                 case .serverError(statusCode: let code):
                     self.presenter?.fetchMovieDetailFailure(errorCode: code)
+                default:
+                    break
+                }
+            }
+        }
+    }
+    
+    func loadMovideVideoTrailer(with movideId: Int?) {
+        guard let movideId = movideId else {
+            return
+        }
+
+        service.requestMovieVideoTrailer(by: movideId) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    self.videoTrailer = response
+                    self.presenter?.fetchVideoTrailerSuccess(videoTrailer: response)
+                }
+            case .failure(let error):
+                switch error {
+                case .serverError(statusCode: let code):
+                    self.presenter?.fetchVideoTrailerFailure(errorCode: code)
                 default:
                     break
                 }
