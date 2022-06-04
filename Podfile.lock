@@ -14,6 +14,7 @@ PODS:
   - PINRemoteImage/PINCache (3.0.3):
     - PINCache (~> 3.0.3)
     - PINRemoteImage/Core
+  - SVProgressHUD (2.2.5)
   - Texture (3.1.0):
     - Texture/AssetsLibrary (= 3.1.0)
     - Texture/Core (= 3.1.0)
@@ -36,6 +37,7 @@ PODS:
     - Texture/Core
 
 DEPENDENCIES:
+  - SVProgressHUD
   - Texture
 
 SPEC REPOS:
@@ -43,14 +45,16 @@ SPEC REPOS:
     - PINCache
     - PINOperation
     - PINRemoteImage
+    - SVProgressHUD
     - Texture
 
 SPEC CHECKSUMS:
   PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PINRemoteImage: f1295b29f8c5e640e25335a1b2bd9d805171bd01
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   Texture: 2e8ab2519452515f7f5a520f5a8f7e0a413abfa3
 
-PODFILE CHECKSUM: a93596ba89c81fa9c0e58edfd008d6b946d07a9e
+PODFILE CHECKSUM: 3f34499a283d94255160d6487428850c0b351544
 
 COCOAPODS: 1.11.3

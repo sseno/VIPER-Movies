@@ -10,5 +10,5 @@ import Foundation
 struct APIEnv {
     
     static let apiKey = "1b6677b4f0393550398f840005db35fe"
-    static let baseURL = "https://api.themoviedb.org/3"
+    static let baseURL = "https://api.themoviedb.org/3/"
 }
