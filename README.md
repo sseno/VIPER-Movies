@@ -1,6 +1,6 @@
 # VIPER-Movies
 
-I'm new in VIPER, this is my first demo apps using VIPER and yaa... sorry for that 🙏🏼
+<img src="gif/Simulator Screen Recording - iPhone 13 Pro Max - 2022-08-08 at 21.53.10.gif">
 
 references:
 - https://www.dicoding.com/academies/209/tutorials/11402 (VIPER module)
@@ -8,6 +8,8 @@ references:
 - https://medium.com/cr8resume/viper-architecture-for-ios-project-with-simple-demo-example-7a07321dbd29
 
 
-In this simple project, display a list of genres at the first page. When tapping one of genre, display a list of movies based on genre. After that, when tapping movie, navigate to the movie detail and show content movie detail including video trailer and user reviews.
+Displays a list of genres at the first page. When tapping one of genre, displays a list of movies based on genre. After that, when tapping movie, navigate to the movie detail and show the content movie details including video trailers and user reviews.
 
-Thanks!
+## Getting Started
+<li>Clone or download</li>
+<li>Build and run</li>
