@@ -1,5 +1,7 @@
 # VIPER-Movies
 
+## Demo
+
 <img src="gif/Simulator Screen Recording - iPhone 13 Pro Max - 2022-08-08 at 21.53.10.gif">
 
 references:
@@ -9,6 +11,10 @@ references:
 
 
 Displays a list of genres at the first page. When tapping one of genre, displays a list of movies based on genre. After that, when tapping movie, navigate to the movie detail and show the content movie details including video trailers and user reviews.
+
+## Features
+<li> Creating layout using Texture</li>
+<li> Loadmore at list movies</li>
 
 ## Getting Started
 <li>Clone or download</li>
